@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Kokpit{% endblock %}
+
+{% block content %}
+<h1>Kokpit użytkownika</h1>
+
+{% if is_admin %}
+<p><strong>Jesteś zalogowany jako administrator</strong></p>
+{% else %}
+<p><strong>Jesteś zalogowany jako kandydat</strong></p>
+{% endif %}
+
+<h2>Dane osobowe</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ students_form.as_p }}
+    <button type="submit" name="save_personal">Zapisz dane</button>
+</form>
+
+<h2>Przesłane dokumenty</h2>
+<ul>
+    {% for doc in user.student_candidate.studentdocuments_set.all %}
+        <li>Dokument nr {{ forloop.counter }}</li>
+    {% empty %}
+        <li>Brak dokumentów</li>
+    {% endfor %}
+</ul>
+
+<h3>Dodaj nowy dokument</h3>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ doc_form.as_p }}
+    <button type="submit" name="upload_doc">Prześlij dokument</button>
+</form>
+
+<h2>Twoje wybrane kierunki</h2>
+<ul>
+    {% for field in declared_fields %}
+    <li>{{ field.field_of_study.name }} (priorytet: {{ field.priority_number }})</li>
+    {% empty %}
+    <li>Brak wybranych kierunków</li>
+    {% endfor %}
+</ul>
+
+<h3>Dodaj kierunek studiów</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ field_form.as_p }}
+    <button type="submit" name="declare_field">Dodaj kierunek</button>
+</form>
+
+<nav>
+    <a href="{% url 'candidates_list' %}">Lista kandydatów</a> |
+    {% if is_admin %}
+        <a href="{% url 'admin:index' %}">Panel administratora</a> |
+    {% endif %}
+    <a href="{% url 'logout' %}">Wyloguj się</a>
+</nav>
+{% endblock %}

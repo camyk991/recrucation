@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Dodaj kandydata{% endblock %}
+
+{% block content %}
+<h2>Dodaj kandydata</h2>
+<form method="post">
+    {% csrf_token %}
+    <h3>Dane osobowe</h3>
+    {{ students_form.as_p }}
+
+    <h3>Dane rekrutacyjne</h3>
+    {{ candidate_form.as_p }}
+
+    <button type="submit">Zapisz</button>
+</form>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Rekrutacja{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<nav>
+    <a href="{% url 'dashboard' %}">Kokpit</a> |
+    <a href="{% url 'candidates_list' %}">Lista kandydatów</a> |
+    {% if user.is_authenticated %}
+        {% if user.role == 'admin' %}
+            <span style="color: red; font-weight: bold;">ADMINISTRATOR</span> |
+        {% else %}
+            <span>Kandydat</span> |
+        {% endif %}
+        <span>Witaj, {{ user.username }} | <a href="{% url 'logout' %}">Wyloguj</a></span>
+    {% else %}
+        <a href="{% url 'login' %}">Zaloguj</a> |
+        <a href="{% url 'register' %}">Rejestracja</a>
+    {% endif %}
+</nav>
+
+{% block content %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Lista kandydatów{% endblock %}
+
+{% block content %}
+<h1>Lista kandydatów</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Kierunek</th>
+            <th>Status płatności</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for sf in candidates %}
+        <tr>
+            <td>{{ sf.student_candidate.students_data.name }}</td>
+            <td>{{ sf.student_candidate.students_data.surname }}</td>
+            <td>{{ sf.field_of_study.name }}</td>
+            <td>{{ sf.is_candidate_paid|yesno:"Tak,Nie" }}</td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="4">Brak kandydatów</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Szczegóły kandydata{% endblock %}
+
+{% block content %}
+<h2>Kandydat {{ candidate.id }}</h2>
+<p><strong>Imię i nazwisko:</strong> {{ student_data.name }} {{ student_data.surname }}</p>
+<p><strong>Email:</strong> {{ student_data.email }}</p>
+<p><strong>Telefon:</strong> {{ student_data.telephone_number }}</p>
+<p><strong>Data złożenia dokumentów:</strong> {{ candidate.date_of_document_transfer }}</p>
+
+<h3>Wybrane kierunki</h3>
+<ul>
+  {% for field in selected_fields %}
+    <li>{{ field.field_of_study.name }} (priorytet: {{ field.priority_number }}, status: {{ field.get_status_display }}, opłacony: {{ field.is_candidate_paid|yesno:"Tak,Nie" }})</li>
+  {% empty %}
+    <li>Brak wybranych kierunków</li>
+  {% endfor %}
+</ul>
+{% endblock %}
